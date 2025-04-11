@@ -46,7 +46,9 @@
     <Compile Include="CadastrosDeDados\Controller.cs" />
     <Compile Include="Jogadores\Equipe.cs" />
     <Compile Include="Jogadores\Jogador.cs" />
+    <Compile Include="Listas.cs" />
     <Compile Include="Menus\EquipesEJogadores.cs" />
+    <Compile Include="Menus\MenuPreview.cs" />
     <Compile Include="Menus\TelaInicial.cs" />
     <Compile Include="Personagens\Arqueiro.cs" />
     <Compile Include="Personagens\Assassino.cs" />

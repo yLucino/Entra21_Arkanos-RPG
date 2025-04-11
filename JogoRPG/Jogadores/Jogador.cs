@@ -10,11 +10,13 @@ namespace JogoRPG.Jogadores
     {
         public string Nome { get; set; }
         public string IdEquipe { get; set; }
+        public Personagem Personagem { get; set; }
 
         public Jogador(string nome, string idEquipe)
         {
             this.Nome = nome;
             this.IdEquipe = idEquipe;
+            Personagem = null;
         }
     }
 }

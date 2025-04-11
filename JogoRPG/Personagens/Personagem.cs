@@ -13,6 +13,7 @@ namespace JogoRPG
         public int VidaMaxima { get; set; }
         public int VidaAtual { get; set; }
         public string Classe { get; set; }
+        public string Foto { get; set; }
 
 
         public int Inteligencia { get; set; }
@@ -42,5 +43,6 @@ namespace JogoRPG
             this.DescricaoSkill = descSkill;
             this.DanoDaseSkill = danoBaseSkill;
         }
+        // Botar atributo de Foto no construtor
     }
 }

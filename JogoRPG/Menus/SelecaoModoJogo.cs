@@ -22,17 +22,17 @@ namespace JogoRPG
                 string titulo = "SELECIONE O MODO DE JOGO";
                 int larguraConsole = Console.WindowWidth;
                 int posXtitulo = (larguraConsole - titulo.Length) / 2;
-                Console.SetCursorPosition(posXtitulo, 5);
+                int alturaConsole = Console.WindowHeight;
+                Console.SetCursorPosition(posXtitulo, ((alturaConsole / 2) - 3));
                 Console.WriteLine(titulo);
 
-                int alturaConsole = Console.WindowHeight;
                 int posYInicio = alturaConsole / 2 - opcoes.Length;
 
                 for (int i = 0; i < opcoes.Length; i++)
                 {
                     string textoOpcao = (i == indiceSelecionado) ? $"> {opcoes[i]}" : $"  {opcoes[i]}";
                     int posX = (larguraConsole - textoOpcao.Length) / 2;
-                    int posY = posYInicio + i;
+                    int posY = posYInicio + i + 2;
 
                     Console.SetCursorPosition(posX, posY);
 

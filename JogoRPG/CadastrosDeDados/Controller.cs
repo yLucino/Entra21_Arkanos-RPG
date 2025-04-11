@@ -10,8 +10,7 @@ namespace JogoRPG
 {
     public class Controller
     {
-
-        public void CadastrarPersonagens(List<Personagem> lista)
+        public void CadastrarPersonagens()
         {
             Assassino assassino = new Assassino("Kael", "Um matador silencioso, rápido como um sussurro na escuridão.");
             Arqueiro arqueiro = new Arqueiro("Elyndor", "Arqueiro élfico, mestre da furtividade e da mira perfeita.");
@@ -20,12 +19,12 @@ namespace JogoRPG
             Mago mago = new Mago("Malrik", "Um conjurador ancestral com poder sobre o fogo e o tempo.");
             Tank tank = new Tank("Brom", "Um colosso inabalável, protetor da linha de frente.");
 
-            lista.Add(assassino);
-            lista.Add(arqueiro);
-            lista.Add(curandeiro);
-            lista.Add(guerreiro);
-            lista.Add(mago);
-            lista.Add(tank);
+            Listas.Instancia.Personagens.Add(tank);
+            Listas.Instancia.Personagens.Add(mago);
+            Listas.Instancia.Personagens.Add(assassino);
+            Listas.Instancia.Personagens.Add(arqueiro);
+            Listas.Instancia.Personagens.Add(guerreiro);
+            Listas.Instancia.Personagens.Add(curandeiro);
         }
     }
 }

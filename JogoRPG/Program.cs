@@ -12,21 +12,21 @@ namespace JogoRPG
 {
     public class Program
     {
-        static List<Personagem> lista_personagens = new List<Personagem>();
-        
+       
         static void Main(string[] args)
         {
+            Listas listas = new Listas();
             Controller controller = new Controller();
             TelaInicial telaInicial = new TelaInicial();
             SelecaoModoJogo selecaopersonagem = new SelecaoModoJogo();
             SelecaoModoJogo selecaoJogadores = new SelecaoModoJogo();
 
             //Fazer o cadastro dos personagens assim que iniciar o jogo
-            controller.CadastrarPersonagens(lista_personagens);
+            controller.CadastrarPersonagens();
 
             //Chamar o Menu da tela inicial
             telaInicial.Menu(selecaoJogadores);
-
+            
             Console.ReadKey();
         }
     }

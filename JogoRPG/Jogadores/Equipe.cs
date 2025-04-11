@@ -17,6 +17,7 @@ namespace JogoRPG.Jogadores
         {
             this.Nome = nome;
             this.Id = id;
+            Jogadores = new List<Jogador>();
         }
     }
 }
