@@ -19,7 +19,7 @@ namespace JogoRPG
         public int Inteligencia { get; set; }
         public int Velocidade { get; set; }
         public int Forca { get; set; }
-        public int Desefa { get; set; }
+        public int Defesa { get; set; }
 
 
         public string NomeSkill { get; set; }
@@ -38,7 +38,7 @@ namespace JogoRPG
             this.Inteligencia = inteligencia;
             this.Velocidade = velocidade;
             this.Forca = forca;
-            this.Desefa = defesa;
+            this.Defesa = defesa;
             this.NomeSkill = nomeSkill;
             this.DescricaoSkill = descSkill;
             this.DanoDaseSkill = danoBaseSkill;

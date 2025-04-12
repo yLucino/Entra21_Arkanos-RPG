@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JogoRPG.Menus
 {
-    public class MenuPreview
+    public class Menu_Preview
     {
         public void Menu()
         {

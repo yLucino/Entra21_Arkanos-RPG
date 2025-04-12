@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace JogoRPG.Menus
 {
-    public class EquipesEJogadores
+    public class Menu_EquipesEJogadores
     {
         public void Menu(int qtdPlayers)
         {
@@ -21,8 +21,8 @@ namespace JogoRPG.Menus
             Listas.Instancia.Equipes[0].Coins = coins;
             Listas.Instancia.Equipes[1].Coins = coins;
 
-            SelecaoPersonagem selecaoPersonage = new SelecaoPersonagem();
-            MenuPreview preview = new MenuPreview();
+            Menu_Personagens selecaoPersonage = new Menu_Personagens();
+            Menu_Preview preview = new Menu_Preview();
 
             selecaoPersonage.Menu(qtdPlayers);
 

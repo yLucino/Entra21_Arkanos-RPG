@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace JogoRPG
 {
-    public class SelecaoModoJogo
+    public class Menu_ModoJogo
     {
         public int Menu()
         {
