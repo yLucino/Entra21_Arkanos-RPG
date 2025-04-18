@@ -22,11 +22,13 @@ namespace JogoRPG
 
         public List<Personagem> Personagens { get; set; }
         public List<Equipe> Equipes { get; set; }
+        public List<Item> Itens { get; set; }
 
         public Listas()
         {
             Personagens = new List<Personagem>();
             Equipes = new List<Equipe>();
+            Itens = new List<Item>();
         }
     }
 }

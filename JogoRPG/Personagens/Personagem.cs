@@ -26,15 +26,16 @@ namespace JogoRPG
         public string DescricaoSkill { get; set; }
         public int DanoDaseSkill { get; set; }
 
+        public List<Item> Itens { get; set; }
 
-
-        public Personagem(string nome, string descricao, int vidaMax, int vidaAtual, string classe, int inteligencia, int velocidade, int forca, int defesa, string nomeSkill, string descSkill, int danoBaseSkill)
+        public Personagem(string nome, string descricao, int vidaMax, int vidaAtual, string classe, string foto, int inteligencia, int velocidade, int forca, int defesa, string nomeSkill, string descSkill, int danoBaseSkill)
         {
             this.Nome = nome;
             this.Descricao = descricao;
             this.VidaMaxima = vidaMax;
             this.VidaAtual = vidaAtual;
             this.Classe = classe;
+            this.Foto = foto;
             this.Inteligencia = inteligencia;
             this.Velocidade = velocidade;
             this.Forca = forca;
@@ -42,7 +43,7 @@ namespace JogoRPG
             this.NomeSkill = nomeSkill;
             this.DescricaoSkill = descSkill;
             this.DanoDaseSkill = danoBaseSkill;
+            Itens = new List<Item>();
         }
-        // Botar atributo de Foto no construtor
     }
 }

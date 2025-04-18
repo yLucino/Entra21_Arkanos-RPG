@@ -23,10 +23,13 @@ namespace JogoRPG.Menus
 
             Menu_Personagens selecaoPersonage = new Menu_Personagens();
             Menu_Preview preview = new Menu_Preview();
+            Batalha batalha = new Batalha();
 
             selecaoPersonage.Menu(qtdPlayers);
 
             preview.Menu();
+            // começar batalha
+            batalha.Start(qtdPlayers);
         }
 
         static void MenuEquipes()

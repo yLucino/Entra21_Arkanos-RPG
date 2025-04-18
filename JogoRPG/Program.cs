@@ -16,14 +16,13 @@ namespace JogoRPG
         static void Main(string[] args)
         {
             Console.OutputEncoding = Encoding.UTF8;
-            Listas listas = new Listas();
             Controller controller = new Controller();
             Menu_TelaInicial telaInicial = new Menu_TelaInicial();
-            Menu_ModoJogo selecaopersonagem = new Menu_ModoJogo();
             Menu_ModoJogo selecaoJogadores = new Menu_ModoJogo();
 
             //Fazer o cadastro dos personagens assim que iniciar o jogo
             controller.CadastrarPersonagens();
+            controller.CadastrarItens();
 
             //Chamar o Menu da tela inicial
             telaInicial.Menu(selecaoJogadores);

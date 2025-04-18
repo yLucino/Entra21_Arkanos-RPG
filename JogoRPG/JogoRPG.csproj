@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CadastrosDeDados\Controller.cs" />
+    <Compile Include="Itens\Item.cs" />
     <Compile Include="Jogadores\Equipe.cs" />
     <Compile Include="Jogadores\Jogador.cs" />
     <Compile Include="Listas.cs" />
