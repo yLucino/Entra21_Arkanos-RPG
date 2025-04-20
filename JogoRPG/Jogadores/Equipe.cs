@@ -12,12 +12,14 @@ namespace JogoRPG.Jogadores
         public string Nome {  get; set; }
         public int Coins { get; set; }
         public List<Jogador> Jogadores { get; set; }
+        public List<Item> Itens { get; set; }
 
         public Equipe(string nome, string id)
         {
             this.Nome = nome;
             this.Id = id;
             Jogadores = new List<Jogador>();
+            Itens = new List<Item>();
         }
     }
 }

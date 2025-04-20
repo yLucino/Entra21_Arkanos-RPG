@@ -12,7 +12,7 @@ namespace JogoRPG
         public void Menu(Menu_ModoJogo selecionar)
         {
 
-            string[] opcoes = { "Jogar", "Personagens", "Sair " };
+            string[] opcoes = { "Jogar", "Ver Itens", "Ver Personagens", "Sair " };
             int indiceSelecionado = 0;
             ConsoleKey tecla;
 
@@ -81,18 +81,15 @@ namespace JogoRPG
                 {
                     if (indiceSelecionado == 0)
                     {
-                        // Obtem o retorno da opção selecionada (Modo de jogo | Qtd de players)
                         int qtdJogadores = selecionar.Menu();
                         
                         if (qtdJogadores != 0)
                         {
                             Menu_EquipesEJogadores equipesEJogadores = new Menu_EquipesEJogadores();
-
-                            // Chama a função para cadastrar Equipes e Jogadores.
                             equipesEJogadores.Menu(qtdJogadores);
                         }
                     }
-                    else if (indiceSelecionado == 2)
+                    else if (indiceSelecionado == 3)
                     {
                         Console.Clear();
                         Console.ForegroundColor = ConsoleColor.DarkCyan;
@@ -100,11 +97,16 @@ namespace JogoRPG
                         Console.ResetColor();
 
                         break;
-                    } else
+                    } 
+                    else if (indiceSelecionado == 2)
                     {
                         Menu_Personagens personagens = new Menu_Personagens();
-
                         personagens.Preview();
+                    }
+                    else if (indiceSelecionado == 1)
+                    {
+                        Menu_Itens itens = new Menu_Itens();
+                        itens.Preview();
                     }
                 }
 

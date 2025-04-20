@@ -10,18 +10,12 @@ namespace JogoRPG
     {
         public string Nome { get; set; }
         public string Descricao { get; set; }
-        public int AumentoDano { get; set; }
-        public double Proficiencia { get; set; }
-        public string Classe { get; set; }
-        public double Valor { get; set; }
+        public int Valor { get; set; }
 
-        public Item(string nome, string descricao, int aumentoDano, double proficiencia, string classe, double valor)
+        public Item(string nome, string descricao, int valor)
         {
             Nome = nome;
             Descricao = descricao;
-            AumentoDano = aumentoDano;
-            Proficiencia = proficiencia;
-            Classe = classe;
             Valor = valor;
         }
     }

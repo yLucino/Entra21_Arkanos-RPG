@@ -6,7 +6,6 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using JogoRPG.Menus;
-using JogoRPG.Personagens;
 
 namespace JogoRPG
 {
@@ -20,14 +19,10 @@ namespace JogoRPG
             Menu_TelaInicial telaInicial = new Menu_TelaInicial();
             Menu_ModoJogo selecaoJogadores = new Menu_ModoJogo();
 
-            //Fazer o cadastro dos personagens assim que iniciar o jogo
             controller.CadastrarPersonagens();
             controller.CadastrarItens();
 
-            //Chamar o Menu da tela inicial
             telaInicial.Menu(selecaoJogadores);
-            
-            Console.ReadKey();
         }
     }
 }

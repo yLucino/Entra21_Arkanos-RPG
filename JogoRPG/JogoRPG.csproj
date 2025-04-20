@@ -44,21 +44,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CadastrosDeDados\Controller.cs" />
+    <Compile Include="Cutscenes\Animacoes.cs" />
     <Compile Include="Itens\Item.cs" />
     <Compile Include="Jogadores\Equipe.cs" />
     <Compile Include="Jogadores\Jogador.cs" />
     <Compile Include="Listas.cs" />
+    <Compile Include="Menus\Menu_Batalha.cs" />
     <Compile Include="Menus\Menu_EquipesEJogadores.cs" />
+    <Compile Include="Menus\Menu_Itens.cs" />
     <Compile Include="Menus\Menu_Preview.cs" />
     <Compile Include="Menus\Menu_TelaInicial.cs" />
-    <Compile Include="Personagens\Arqueiro.cs" />
-    <Compile Include="Personagens\Assassino.cs" />
+    <Compile Include="Personagens\Pikachu.cs" />
+    <Compile Include="Personagens\Charmander.cs" />
     <Compile Include="Batalha.cs" />
-    <Compile Include="Personagens\Curandeiro.cs" />
-    <Compile Include="Personagens\Guerreiro.cs" />
-    <Compile Include="Personagens\Mago.cs" />
+    <Compile Include="Personagens\Squirtle.cs" />
+    <Compile Include="Personagens\Chikorita.cs" />
+    <Compile Include="Personagens\Gastly.cs" />
     <Compile Include="Personagens\Personagem.cs" />
-    <Compile Include="Personagens\Tank.cs" />
+    <Compile Include="Personagens\Bulbasaur.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Menus\Menu_ModoJogo.cs" />

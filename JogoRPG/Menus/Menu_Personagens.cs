@@ -167,7 +167,7 @@ namespace JogoRPG
 
                 string titulo = $"PREVIEW PERSONAGEM 0{index + 1}";
                 
-                string foto = Listas.Instancia.Personagens[index].Foto;
+                string foto = Listas.Instancia.Personagens[index].FotoComplexa;
                 string nome = $"Nome: {Listas.Instancia.Personagens[index].Nome}";
                 string classe = $"Classe: {Listas.Instancia.Personagens[index].Classe}";
                 string descricao = $"Descrição: {Listas.Instancia.Personagens[index].Descricao}";
