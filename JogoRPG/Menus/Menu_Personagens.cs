@@ -29,7 +29,7 @@ namespace JogoRPG
                 {
                     Console.Clear();
 
-                    string titulo = "  SELECIONE O PERSONAGEM";
+                    string titulo = "  SELECIONE O POKÉMON";
                     string subTitulo = $"  EQUIPE: {Listas.Instancia.Equipes[0].Id} {Listas.Instancia.Equipes[0].Nome} | JOGADOR: {Listas.Instancia.Equipes[0].Jogadores[j].Nome}";
 
                     int larguraConsole = Console.WindowWidth;
@@ -95,7 +95,7 @@ namespace JogoRPG
                 {
                     Console.Clear();
 
-                    string titulo = "  SELECIONE O PERSONAGEM";
+                    string titulo = "  SELECIONE O POKÉMON";
                     string subTitulo = $"  EQUIPE: {Listas.Instancia.Equipes[1].Id} {Listas.Instancia.Equipes[1].Nome} | JOGADOR: {Listas.Instancia.Equipes[1].Jogadores[j].Nome}";
 
                     int larguraConsole = Console.WindowWidth;
@@ -165,7 +165,7 @@ namespace JogoRPG
             {
                 Console.Clear();
 
-                string titulo = $"PREVIEW PERSONAGEM 0{index + 1}";
+                string titulo = $"PREVIEW POKÉMON 0{index + 1}";
                 
                 string foto = Listas.Instancia.Personagens[index].FotoComplexa;
                 string nome = $"Nome: {Listas.Instancia.Personagens[index].Nome}";

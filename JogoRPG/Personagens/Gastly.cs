@@ -26,7 +26,10 @@ namespace JogoRPG
             defesa: 35,
             nomeSkill: "Língua Sombria",
             descSkill: "Ataque que pode deixar o inimigo assustado.",
-            danoBaseSkill: 65)
+            danoBaseSkill: 65,
+            maxPPSkill: 2,
+            atualPPSkill: 2,
+            status: "Acordado")
         { }
     }
 }

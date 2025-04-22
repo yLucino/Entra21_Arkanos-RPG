@@ -26,9 +26,13 @@ namespace JogoRPG
         public string NomeSkill { get; set; }
         public string DescricaoSkill { get; set; }
         public int DanoDaseSkill { get; set; }
+        public int MaxPPSkill { get; set; } // Qtd max de uso da skill
+        public int AtualPPSkill { get; set; } // Qtd atual de uso da skill
+
+        public string Status {  get; set; } // Acordado, Desmaiado, Paralizado, Queimando, Dormindo
 
 
-        public Personagem(string nome, string descricao, int vidaMax, int vidaAtual, string classe, string fotoSimples, string fotoComplexa, int inteligencia, int velocidade, int forca, int defesa, string nomeSkill, string descSkill, int danoBaseSkill)
+        public Personagem(string nome, string descricao, int vidaMax, int vidaAtual, string classe, string fotoSimples, string fotoComplexa, int inteligencia, int velocidade, int forca, int defesa, string nomeSkill, string descSkill, int danoBaseSkill, int maxPPSkill, int atualPPSkill, string status)
         {
             this.Nome = nome;
             this.Descricao = descricao;
@@ -44,6 +48,9 @@ namespace JogoRPG
             this.NomeSkill = nomeSkill;
             this.DescricaoSkill = descSkill;
             this.DanoDaseSkill = danoBaseSkill;
+            this.MaxPPSkill = maxPPSkill;
+            this.AtualPPSkill = atualPPSkill;
+            this.Status = status;
         }
     }
 }

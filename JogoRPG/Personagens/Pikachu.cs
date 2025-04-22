@@ -25,7 +25,10 @@ namespace JogoRPG
             defesa: 40,
             nomeSkill: "Choque do Trovão",
             descSkill: "Dano elétrico com chance de paralisar o inimigo.",
-            danoBaseSkill: 60)
+            danoBaseSkill: 60,
+            maxPPSkill: 2,
+            atualPPSkill: 2,
+            status: "Acordado")
         { }
     }
 }

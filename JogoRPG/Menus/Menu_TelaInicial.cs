@@ -12,7 +12,7 @@ namespace JogoRPG
         public void Menu(Menu_ModoJogo selecionar)
         {
 
-            string[] opcoes = { "Jogar", "Ver Itens", "Ver Personagens", "Sair " };
+            string[] opcoes = { "Jogar", "Ver Itens", "Ver Pokémons", "Ver Elementos", "Sair " };
             int indiceSelecionado = 0;
             ConsoleKey tecla;
 
@@ -20,7 +20,7 @@ namespace JogoRPG
             {
                 Console.Clear();
 
-                string titulo = "\r\n    / \\     _ __  | | __   __ _   _ __     ___    ___              |  _ \\  |  _ \\   / ___|\r\n   / _ \\   | '__| | |/ /  / _` | | '_ \\   / _ \\  / __|    _____    | |_) | | |_) | | |  _ \r\n  / ___ \\  | |    |   <  | (_| | | | | | | (_) | \\__ \\   |_____|   |  _ <  |  __/  | |_| |\r\n /_/   \\_\\ |_|    |_|\\_\\  \\__,_| |_| |_|  \\___/  |___/             |_| \\_\\ |_|      \\____|";
+                string titulo = ":::::::::   ::::::::  :::    ::: :::::::::: ::::    ::::   ::::::::  ::::    ::: \r\n:+:    :+: :+:    :+: :+:   :+:  :+:        +:+:+: :+:+:+ :+:    :+: :+:+:   :+: \r\n+:+    +:+ +:+    +:+ +:+  +:+   +:+        +:+ +:+:+ +:+ +:+    +:+ :+:+:+  +:+ \r\n+#++:++#+  +#+    +:+ +#++:++    +#++:++#   +#+  +:+  +#+ +#+    +:+ +#+ +:+ +#+ \r\n+#+        +#+    +#+ +#+  +#+   +#+        +#+       +#+ +#+    +#+ +#+  +#+#+# \r\n#+#        #+#    #+# #+#   #+#  #+#        #+#       #+# #+#    #+# #+#   #+#+# \r\n###         ########  ###    ### ########## ###       ###  ########  ###    #### ";
 
                 string[] linhasTitulo = titulo.Split(new[] { "\r\n" }, StringSplitOptions.None);
                 int larguraConsole = Console.WindowWidth;
@@ -36,7 +36,7 @@ namespace JogoRPG
 
                 foreach (string linha in linhasTitulo)
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.SetCursorPosition(espacosEsquerdaTitulo, Console.CursorTop);
                     Console.WriteLine(linha);
                 }
@@ -45,7 +45,9 @@ namespace JogoRPG
                 string instrucao = "Use as setas ↑ ↓ para navegar e Enter para selecionar:\n\n";
                 int espacosEsquerdaInstrucao = (larguraConsole - instrucao.Length) / 2;
                 Console.SetCursorPosition(espacosEsquerdaInstrucao, Console.CursorTop + 1);
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(instrucao + "\n");
+                Console.ResetColor();
 
                 for (int i = 0; i < opcoes.Length; i++)
                 {
@@ -89,7 +91,7 @@ namespace JogoRPG
                             equipesEJogadores.Menu(qtdJogadores);
                         }
                     }
-                    else if (indiceSelecionado == 3)
+                    else if (indiceSelecionado == 4)
                     {
                         Console.Clear();
                         Console.ForegroundColor = ConsoleColor.DarkCyan;
@@ -98,6 +100,11 @@ namespace JogoRPG
 
                         break;
                     } 
+                    else if (indiceSelecionado == 3)
+                    {
+                        Menu_Elementos elementos = new Menu_Elementos();
+                        elementos.Preview();
+                    }
                     else if (indiceSelecionado == 2)
                     {
                         Menu_Personagens personagens = new Menu_Personagens();

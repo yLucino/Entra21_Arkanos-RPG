@@ -26,7 +26,10 @@ namespace JogoRPG
             defesa: 55,
             nomeSkill: "Semente Sanguessuga",
             descSkill: "Planta uma semente no inimigo e recupera vida a cada turno.",
-            danoBaseSkill: 50)
+            danoBaseSkill: 50,
+            maxPPSkill: 2,
+            atualPPSkill: 2,
+            status: "Acordado")
         { }
     }
 }

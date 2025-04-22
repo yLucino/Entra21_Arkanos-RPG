@@ -25,7 +25,10 @@ namespace JogoRPG
             defesa: 70,
             nomeSkill: "Jato d’Água",
             descSkill: "Dispara um jato de água forte que pode empurrar o inimigo.",
-            danoBaseSkill: 55)
+            danoBaseSkill: 55,
+            maxPPSkill: 2,
+            atualPPSkill: 2,
+            status: "Acordado")
         { }
     }
 }

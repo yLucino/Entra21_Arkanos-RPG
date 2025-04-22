@@ -26,7 +26,10 @@ namespace JogoRPG
             defesa: 35,
             nomeSkill: "Chama Ardente",
             descSkill: "Ataca com fogo intenso e pode causar queimadura.",
-            danoBaseSkill: 65)
+            danoBaseSkill: 65,
+            maxPPSkill: 2,
+            atualPPSkill: 2,
+            status: "Acordado")
         { }
     }
 }

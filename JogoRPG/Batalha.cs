@@ -13,50 +13,32 @@ namespace JogoRPG
         static Animacoes animacoes = new Animacoes();
         static Menu_Batalha batalha = new Menu_Batalha();
 
-        // Batalha 1v1 ou 2v2 em turnos
-        // 1º e 5º turno para compra de itens
-        // restante dos turno destinado para mecanicas de: Combate e Defesa com uso das Skills
         public void Start(int qtdPlayers)
         {
 
-            // A batalha é um loop entre turno de Combate e turno de Compra(1º e 5º)
             int turno = 1;
 
             animacoes.CutsceneVS(Listas.Instancia.Equipes[0].Nome, Listas.Instancia.Equipes[1].Nome);
 
-            bool statusPlayersLife;
-            
-            if (qtdPlayers == 4)
-            {
-                int vidaTotalEquipeRED = Listas.Instancia.Equipes[0].Jogadores[0].Personagem.VidaAtual + Listas.Instancia.Equipes[0].Jogadores[1].Personagem.VidaAtual;
-                int vidaTotalEquipeGREEN = Listas.Instancia.Equipes[1].Jogadores[0].Personagem.VidaAtual + Listas.Instancia.Equipes[1].Jogadores[1].Personagem.VidaAtual;
-
-                if (vidaTotalEquipeRED == 0 || vidaTotalEquipeGREEN == 0) statusPlayersLife = false;
-                else statusPlayersLife = true;
-            } 
-            else
-            {
-                int vidaTotalEquipeRED = Listas.Instancia.Equipes[0].Jogadores[0].Personagem.VidaAtual;
-                int vidaTotalEquipeGREEN = Listas.Instancia.Equipes[1].Jogadores[0].Personagem.VidaAtual;
-
-                if (vidaTotalEquipeRED == 0 || vidaTotalEquipeGREEN == 0) statusPlayersLife = false;
-                else statusPlayersLife = true;
-            }
-
-            Partida(statusPlayersLife, turno);
+            Partida(true, turno, qtdPlayers);
         }
 
-        static void Partida(bool statusPlayersLife, int turno)
+        static void Partida(bool statusPlayersLife, int turno, int qtdPlayers)
         {
             while (statusPlayersLife)
             {
                 animacoes.CutsceneComecoTurno(turno);
 
                 if (turno == 1 || turno == 5) TurnoCompra();
-                else TurnoCombate();
+                else TurnoCombate(qtdPlayers);
+
+                Listas.Instancia.Equipes[0].Coins += 750;
+                Listas.Instancia.Equipes[1].Coins += 750;
 
                 animacoes.CutsceneFimTurno(turno);
                 turno++;
+
+                statusPlayersLife = VerificadorDeVidaEquipe(qtdPlayers);
             }
 
             FimPartida();
@@ -165,20 +147,44 @@ namespace JogoRPG
             } while (currentEquip < Listas.Instancia.Equipes.Count);
         }
 
-
-        static void TurnoCombate()
+        static void TurnoCombate(int qtdPlayers)
         {
-            batalha.Menu();
+            batalha.Menu(qtdPlayers);
         }
 
         static void FimPartida()
         {
-
+            Console.WriteLine("FIM DA PARTIDA");
+            Console.ReadKey();
         }
     
         static void ResumoTurno()
         {
 
+        }
+
+        static bool VerificadorDeVidaEquipe(int qtdPlayers)
+        {
+            bool statusPlayersLife;
+
+            if (qtdPlayers == 4)
+            {
+                int vidaTotalEquipeRED = Listas.Instancia.Equipes[0].Jogadores[0].Personagem.VidaAtual + Listas.Instancia.Equipes[0].Jogadores[1].Personagem.VidaAtual;
+                int vidaTotalEquipeGREEN = Listas.Instancia.Equipes[1].Jogadores[0].Personagem.VidaAtual + Listas.Instancia.Equipes[1].Jogadores[1].Personagem.VidaAtual;
+
+                if (vidaTotalEquipeRED <= 0 || vidaTotalEquipeGREEN <= 0) statusPlayersLife = false;
+                else statusPlayersLife = true;
+            }
+            else
+            {
+                int vidaTotalEquipeRED = Listas.Instancia.Equipes[0].Jogadores[0].Personagem.VidaAtual;
+                int vidaTotalEquipeGREEN = Listas.Instancia.Equipes[1].Jogadores[0].Personagem.VidaAtual;
+
+                if (vidaTotalEquipeRED <= 0 || vidaTotalEquipeGREEN <= 0) statusPlayersLife = false;
+                else statusPlayersLife = true;
+            }
+
+            return statusPlayersLife;
         }
     }
 }

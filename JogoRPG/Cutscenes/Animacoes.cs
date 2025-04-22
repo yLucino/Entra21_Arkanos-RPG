@@ -81,9 +81,8 @@ namespace JogoRPG
                 string obs = "* Cada equipe pode comprar apenas um EQUIPAMENTO por fase de Compra *";
                 Console.SetCursorPosition((larguraConsole - obs.Length) / 2, posY);
                 Console.WriteLine(obs);
+                Thread.Sleep(1500);
             }
-
-            Thread.Sleep(2500);
         }
     
         public void CutsceneFimTurno(int turno)

@@ -25,7 +25,10 @@ namespace JogoRPG
             defesa: 60,
             nomeSkill: "Folha Navalha",
             descSkill: "Corta o inimigo com folhas afiadas.",
-            danoBaseSkill: 55)
+            danoBaseSkill: 55,
+            maxPPSkill: 2,
+            atualPPSkill: 2,
+            status: "Acordado")
         { }
     }
 }
