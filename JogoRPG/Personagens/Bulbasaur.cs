@@ -20,15 +20,13 @@ namespace JogoRPG
              (o__o)_/_\
             /(_  _) _ /",
             fotoComplexa: "             `;,;.;,;.;.'\r\n              ..:;:;::;: \r\n        ..--''' '' ' ' '''--.  \r\n      /' .   .'        '.   .`\\\r\n     | /    /            \\   '.|\r\n     | |   :             :    :|\r\n   .'| |   :             :    :|\r\n ,: /\\ \\.._\\ __..===..__/_../ /`.\r\n|'' |  :.|  `'          `'  |.'  ::.\r\n|   |  ''|    :'';          | ,  `''\\\r\n|.:  \\/  | /'-.`'   ':'.-'\\ |  \\,   |\r\n| '  /  /  | / |...   | \\ |  |  |';'|\r\n \\ _ |:.|  |_\\_|`.'   |_/_|  |.:| _ |\r\n/,.,.|' \\__       . .      __/ '|.,.,\\\r\n     | ':`.`----._____.---'.'   |\r\n      \\   `:\"\"\"-------'\"\"' |   |\r\n       ',-,-',             .'-=,=,",
-            inteligencia: 60,
-            velocidade: 45,
             forca: 50,
             defesa: 55,
             nomeSkill: "Semente Sanguessuga",
             descSkill: "Planta uma semente no inimigo e recupera vida a cada turno.",
-            danoBaseSkill: 50,
-            maxPPSkill: 2,
-            atualPPSkill: 2,
+            danoBaseSkill: 65,
+            maxPPSkill: 1,
+            atualPPSkill: 1,
             status: "Acordado")
         { }
     }

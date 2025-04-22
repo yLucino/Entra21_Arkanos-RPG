@@ -16,7 +16,7 @@ namespace JogoRPG
 
         public void Menu(int qtdPlayers)
         {
-            string[] opcoes = { " Atacar", "Itens", " PASSAR VEZ" };
+            string[] opcoes = { " Atacar", "Itens: 0", " PASSAR VEZ" };
             int indiceSelecionado = 0;
             ConsoleKey tecla;
 
@@ -44,6 +44,7 @@ namespace JogoRPG
 
                 // ==== MENU OPÇÕES ====
                 var (currentEquip, currentPlayer) = ordemTurnos[turnoAtual];
+                opcoes[1] = $"Itens: {Listas.Instancia.Equipes[currentEquip].Itens.Count()}";
 
                 string titulo = $" Vez de: {Listas.Instancia.Equipes[currentEquip].Jogadores[currentPlayer].Nome} | {Listas.Instancia.Equipes[currentEquip].Jogadores[currentPlayer].Personagem.Nome}";
 
@@ -73,6 +74,12 @@ namespace JogoRPG
                         Console.WriteLine(textoOpcao);
                         Console.ResetColor();
                     }
+                    else if (i == 1 && Listas.Instancia.Equipes[currentEquip].Itens.Count == 0)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.WriteLine(textoOpcao);
+                        Console.ResetColor();
+                    }
                     else if (i == indiceSelecionado)
                     {
                         Console.BackgroundColor = ConsoleColor.DarkBlue;
@@ -98,14 +105,12 @@ namespace JogoRPG
                 }
                 else if (tecla == ConsoleKey.Enter)
                 {
-                    string acao = opcoes[indiceSelecionado];
-
-                    if (acao == " PASSAR VEZ")
+                    if (indiceSelecionado == 2)
                     {
                         feedback.ResumoDeAcaoBatalha($"{Listas.Instancia.Equipes[currentEquip].Jogadores[currentPlayer].Personagem.Nome} passou sua vez.");
                         turnoAtual++;
                     }
-                    else if (acao == " Atacar")
+                    else if (indiceSelecionado == 0)
                     {
                         if (Listas.Instancia.Equipes[currentEquip].Jogadores[currentPlayer].Personagem.VidaAtual >= 1)
                         {
@@ -115,10 +120,10 @@ namespace JogoRPG
 
                         turnoAtual++;
                     }
-                    else if (acao == "Itens" && Listas.Instancia.Equipes[currentEquip].Itens.Count() > 0)
+                    else if (indiceSelecionado == 1 && Listas.Instancia.Equipes[currentEquip].Itens.Count() > 0)
                     {
                         RetornoUsoItem retorno = MenuItem(currentEquip, currentPlayer);
-                        feedback.ResumoDeAcaoBatalha($"{retorno.CurrentPokemon.Nome} usou o item {retorno.Item.Nome}. E {retorno.Efeito}");
+                        feedback.ResumoDeAcaoBatalha($"{retorno.CurrentPokemon.Nome} {(retorno.ItemUsado ? "usou" : "tentou usar")} o item {retorno.Item.Nome}. {(retorno.ItemUsado ? "E" : "Mas")} {retorno.Efeito}");
                         turnoAtual++;
                     }
 
@@ -169,7 +174,7 @@ namespace JogoRPG
                 else if (jogador.Personagem.Classe == "Fogo 🔥") Console.ForegroundColor = ConsoleColor.Red;
                 else if (jogador.Personagem.Classe == "Planta 🍃") Console.ForegroundColor = ConsoleColor.DarkGreen;
 
-                Console.WriteLine($"{jogador.Personagem.Nome} - {jogador.Personagem.Classe}");
+                Console.WriteLine($"{jogador.Personagem.Nome} - {jogador.Personagem.Classe} - {jogador.Personagem.Status}");
 
                 double porcentagem = (double)jogador.Personagem.VidaAtual / jogador.Personagem.VidaMaxima;
                 Console.ForegroundColor =
@@ -203,10 +208,12 @@ namespace JogoRPG
 
         static RetornoAtaque MenuAtaque(int currentEquip, int currentPlayer)
         {
-            string[] opcoes = { $"Ataque Básico DANO: {Listas.Instancia.Equipes[currentEquip].Jogadores[currentPlayer].Personagem.Forca}",
-                                $"{Listas.Instancia.Equipes[currentEquip].Jogadores[currentPlayer].Personagem.NomeSkill} DANO: {Listas.Instancia.Equipes[currentEquip].Jogadores[currentPlayer].Personagem.DanoDaseSkill}"};
+            string[] opcoes = { $"Ataque Básico | DANO: ⚪ {Listas.Instancia.Equipes[currentEquip].Jogadores[currentPlayer].Personagem.Forca} | PP: ∞",
+                                $"{Listas.Instancia.Equipes[currentEquip].Jogadores[currentPlayer].Personagem.NomeSkill} | DANO: {Listas.Instancia.Equipes[currentEquip].Jogadores[currentPlayer].Personagem.Classe.Split(' ')[1]} {Listas.Instancia.Equipes[currentEquip].Jogadores[currentPlayer].Personagem.DanoDaseSkill} | PP: {Listas.Instancia.Equipes[currentEquip].Jogadores[currentPlayer].Personagem.AtualPPSkill}/{Listas.Instancia.Equipes[currentEquip].Jogadores[currentPlayer].Personagem.MaxPPSkill}"};
             int indiceSelecionado = 0;
             ConsoleKey tecla;
+
+            bool loop = true;
 
             do
             {
@@ -226,7 +233,14 @@ namespace JogoRPG
 
                     Console.SetCursorPosition(posX, posY);
 
-                    if (i == indiceSelecionado)
+                    if (i == 1  && Listas.Instancia.Equipes[currentEquip].Jogadores[currentPlayer].Personagem.AtualPPSkill <= 0)
+                    {
+                        Console.BackgroundColor = ConsoleColor.Black;
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.WriteLine(textoOpcao);
+                        Console.ResetColor();
+                    }
+                    else if (i == indiceSelecionado)
                     {
                         Console.BackgroundColor = ConsoleColor.Black;
                         Console.ForegroundColor = ConsoleColor.Blue;
@@ -245,9 +259,13 @@ namespace JogoRPG
                 else if (tecla == ConsoleKey.DownArrow)
                 {
                     indiceSelecionado = (indiceSelecionado + 1) % opcoes.Length;
+                } else if (tecla == ConsoleKey.Enter)
+                {
+                    if (indiceSelecionado == 1 && Listas.Instancia.Equipes[currentEquip].Jogadores[currentPlayer].Personagem.AtualPPSkill > 0) loop = false;
+                    else if (indiceSelecionado == 0) loop = false;
                 }
 
-            } while (tecla != ConsoleKey.Enter);
+            } while (loop);
 
             int indexEnemyEquip = 0;
 
@@ -283,10 +301,15 @@ namespace JogoRPG
             do
             {
                 string titulo = "SELECIONE UM ITEM PARA USAR";
-                string background = "                           ";
+                string background = "                                                ";
                 int larguraConsole = Console.WindowWidth;
                 int alturaConsole = Console.WindowHeight;
-                int posYInicio = alturaConsole - opcoes.Count() - 4;
+
+                int removeRow = 4;
+
+                if (opcoes.Count() == 2) removeRow = 3;
+
+                int posYInicio = alturaConsole - opcoes.Count() - removeRow;
 
                 Console.SetCursorPosition((larguraConsole - titulo.Length) / 2, posYInicio + 1);
                 Console.WriteLine(titulo);
@@ -297,7 +320,7 @@ namespace JogoRPG
 
                 for (int i = 0; i < opcoes.Count(); i++)
                 {
-                    string textoOpcao = (i == indiceSelecionado) ? $"> {opcoes[i]}" : $"  {opcoes[i]}";
+                    string textoOpcao = (i == indiceSelecionado) ? $">  {opcoes[i]}" : $"   {opcoes[i]}";
                     int posX = (larguraConsole - textoOpcao.Length) / 2;
                     int posY = posYInicio + i + 2;
 
@@ -330,9 +353,9 @@ namespace JogoRPG
 
             int indexJogador = SelecionarJogadorEPokemon(currentEquip, itemSelecionado);
 
-            string efeitoDoItem = regras.UsarItem(currentEquip, indexJogador, itemSelecionado);
+            (string efeitoDoItem, bool itemUsado) = regras.UsarItem(currentEquip, indexJogador, itemSelecionado);
 
-            return new RetornoUsoItem(Listas.Instancia.Equipes[currentEquip].Jogadores[currentPlayer].Personagem, itemSelecionado, efeitoDoItem);
+            return new RetornoUsoItem(Listas.Instancia.Equipes[currentEquip].Jogadores[currentPlayer].Personagem, itemSelecionado, efeitoDoItem, itemUsado);
         }
 
         static int SelecionarInimigo(int indexEnemyEquip)
@@ -341,7 +364,7 @@ namespace JogoRPG
 
             foreach (var jogador in Listas.Instancia.Equipes[indexEnemyEquip].Jogadores)
             {
-                opcoes.Add($"{jogador.Personagem.Nome} {jogador.Personagem.Classe} Defesa: {jogador.Personagem.Defesa}%");
+                if (jogador.Personagem.VidaAtual >= 1) opcoes.Add($"{jogador.Personagem.Nome} {jogador.Personagem.Classe} Defesa: {jogador.Personagem.Defesa}%");
             }
 
             int indiceSelecionado = 0;
@@ -350,12 +373,21 @@ namespace JogoRPG
             do
             {
                 string titulo = "SELECIONE UM POKÉMON INIMIGO PARA ATACAR";
+                string background = "                                                ";
                 int larguraConsole = Console.WindowWidth;
                 int alturaConsole = Console.WindowHeight;
-                int posYInicio = alturaConsole - opcoes.Count() - 3;
+                int removeRow = 4;
+
+                if (opcoes.Count() == 2) removeRow = 3;
+
+                int posYInicio = alturaConsole - opcoes.Count() - removeRow;
 
                 Console.SetCursorPosition((larguraConsole - titulo.Length) / 2, posYInicio + 1);
                 Console.WriteLine(titulo);
+                Console.SetCursorPosition((larguraConsole - background.Length) / 2, posYInicio + 3);
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.WriteLine(background);
+                Console.ResetColor();
 
                 for (int i = 0; i < opcoes.Count(); i++)
                 {
@@ -397,7 +429,7 @@ namespace JogoRPG
 
             foreach (var jogador in Listas.Instancia.Equipes[indexEquip].Jogadores)
             {
-                opcoes.Add($"Jogador: {jogador.Nome} | Pokémon: {jogador.Personagem.Nome} | Vida: {jogador.Personagem.VidaAtual}/{jogador.Personagem.VidaMaxima}");
+                opcoes.Add($"Jogador: {jogador.Nome} | Pokémon: {jogador.Personagem.Nome} | Vida: {jogador.Personagem.VidaAtual}/{jogador.Personagem.VidaMaxima} | PP Skill: {jogador.Personagem.AtualPPSkill}/{jogador.Personagem.MaxPPSkill} | Status: {jogador.Personagem.Status}");
             }
 
             int indiceSelecionado = 0;
@@ -406,9 +438,14 @@ namespace JogoRPG
             do
             {
                 string titulo = $"SELECIONE UM POKÉMON PARA USAR O ITEM: {item.Nome}";
+                string background = "                                                ";
                 int larguraConsole = Console.WindowWidth;
                 int alturaConsole = Console.WindowHeight;
-                int posYInicio = alturaConsole - opcoes.Count() - 3;
+                int posYInicio = alturaConsole - opcoes.Count() - 4;
+                Console.SetCursorPosition((larguraConsole - background.Length) / 2, posYInicio + 3);
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.WriteLine(background);
+                Console.ResetColor();
 
                 Console.SetCursorPosition((larguraConsole - titulo.Length) / 2, posYInicio + 1);
                 Console.WriteLine(titulo);

@@ -12,19 +12,22 @@ namespace JogoRPG
         public void Menu(int qtdPlayers)
         {
             List<string> opcoes = new List<string>();
+            List<int> indicesEmUso = new List<int>();
 
             foreach (var personagem in Listas.Instancia.Personagens)
             {
-                Console.WriteLine(personagem.Nome);
                 opcoes.Add($"{personagem.Classe} - {personagem.Nome}");
             }
 
             int indiceSelecionado = 0;
             ConsoleKey tecla;
 
-            
+
+            //  ============= EQUIPE RED =================
             for (int j = 0; j < qtdPlayers / 2; j++)
             {
+                bool loop = true;
+
                 do
                 {
                     Console.Clear();
@@ -33,17 +36,14 @@ namespace JogoRPG
                     string subTitulo = $"  EQUIPE: {Listas.Instancia.Equipes[0].Id} {Listas.Instancia.Equipes[0].Nome} | JOGADOR: {Listas.Instancia.Equipes[0].Jogadores[j].Nome}";
 
                     int larguraConsole = Console.WindowWidth;
-                    int posXtitulo = (larguraConsole - titulo.Length) / 2;
                     int alturaConsole = Console.WindowHeight;
-                    Console.SetCursorPosition(posXtitulo, ((alturaConsole / 2) - 5));
+
+                    Console.SetCursorPosition((larguraConsole - titulo.Length) / 2, (alturaConsole / 2) - 5);
                     Console.ForegroundColor = ConsoleColor.Blue;
                     Console.WriteLine(titulo);
-                    
-                    int posXSubTitulo = (larguraConsole - subTitulo.Length) / 2;
-                    Console.SetCursorPosition(posXSubTitulo, ((alturaConsole / 2) - 4));
 
-                    if (Listas.Instancia.Equipes[0].Id == "RED") Console.ForegroundColor = ConsoleColor.Red;
-                    else Console.ForegroundColor = ConsoleColor.Green;
+                    Console.SetCursorPosition((larguraConsole - subTitulo.Length) / 2, (alturaConsole / 2) - 4);
+                    Console.ForegroundColor = (Listas.Instancia.Equipes[0].Id == "RED") ? ConsoleColor.Red : ConsoleColor.Green;
                     Console.WriteLine(subTitulo);
                     Console.ResetColor();
 
@@ -51,46 +51,69 @@ namespace JogoRPG
 
                     for (int i = 0; i < opcoes.Count(); i++)
                     {
-                        string textoOpcao = (i == indiceSelecionado) ? $"> {opcoes[i]}" : $"  {opcoes[i]}";
+                        bool estaSelecionado = (i == indiceSelecionado);
+                        bool estaEmUso = indicesEmUso.Contains(i);
+
+                        string textoOpcao = estaSelecionado ? $"> {opcoes[i]}" : $"  {opcoes[i]}";
                         int posX = (larguraConsole - textoOpcao.Length) / 2;
                         int posY = posYInicio + i + 4;
 
                         Console.SetCursorPosition(posX, posY);
 
-                        if (i == indiceSelecionado)
+                        if (estaEmUso)
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkGray;
+                        }
+                        else if (estaSelecionado)
                         {
                             Console.BackgroundColor = ConsoleColor.Blue;
                             Console.ForegroundColor = ConsoleColor.White;
-                            Console.WriteLine(textoOpcao);
-                            Console.ResetColor();
                         }
-                        else
-                        {
-                            Console.WriteLine(textoOpcao);
-                        }
+
+                        Console.WriteLine(textoOpcao);
+                        Console.ResetColor();
                     }
 
                     tecla = Console.ReadKey(true).Key;
 
                     if (tecla == ConsoleKey.UpArrow)
                     {
-                        indiceSelecionado = (indiceSelecionado - 1 + opcoes.Count()) % opcoes.Count();
+                        do
+                        {
+                            indiceSelecionado = (indiceSelecionado - 1 + opcoes.Count()) % opcoes.Count();
+                        } while (indicesEmUso.Contains(indiceSelecionado));
                     }
                     else if (tecla == ConsoleKey.DownArrow)
                     {
-                        indiceSelecionado = (indiceSelecionado + 1) % opcoes.Count();
+                        do
+                        {
+                            indiceSelecionado = (indiceSelecionado + 1) % opcoes.Count();
+                        } while (indicesEmUso.Contains(indiceSelecionado));
+                    }
+                    else if (tecla == ConsoleKey.Enter)
+                    {
+                        if (!indicesEmUso.Contains(indiceSelecionado))
+                        {
+                            string nomePersonagemSelecionado = opcoes[indiceSelecionado].Split('-')[1].Trim();
+                            Personagem personagemEscolhido = Listas.Instancia.Personagens.Find(p => p.Nome == nomePersonagemSelecionado);
+
+                            Listas.Instancia.Equipes[0].Jogadores[j].Personagem = personagemEscolhido;
+                            indicesEmUso.Add(indiceSelecionado);
+
+                            loop = false;
+                        }
                     }
 
-                } while (tecla != ConsoleKey.Enter);
-
-                string nomePersonagemSelecionado = opcoes[indiceSelecionado].Split('-')[1].Trim();
-                Personagem personagemEscolhido = Listas.Instancia.Personagens.Find(p => p.Nome == nomePersonagemSelecionado);
-
-                Listas.Instancia.Equipes[0].Jogadores[j].Personagem = personagemEscolhido;
+                } while (loop);
             }
-            
+
+
+            // ================ EQUIPE GREEN ==================
+
             for (int j = 0; j < qtdPlayers / 2; j++)
             {
+                bool loop = true;
+
                 do
                 {
                     Console.Clear();
@@ -117,42 +140,61 @@ namespace JogoRPG
 
                     for (int i = 0; i < opcoes.Count(); i++)
                     {
-                        string textoOpcao = (i == indiceSelecionado) ? $"> {opcoes[i]}" : $"  {opcoes[i]}";
+                        bool estaSelecionado = (i == indiceSelecionado);
+                        bool estaEmUso = indicesEmUso.Contains(i);
+
+                        string textoOpcao = estaSelecionado ? $"> {opcoes[i]}" : $"  {opcoes[i]}";
                         int posX = (larguraConsole - textoOpcao.Length) / 2;
                         int posY = posYInicio + i + 4;
 
                         Console.SetCursorPosition(posX, posY);
 
-                        if (i == indiceSelecionado)
+                        if (estaEmUso)
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkGray;
+                        }
+                        else if (estaSelecionado)
                         {
                             Console.BackgroundColor = ConsoleColor.Blue;
                             Console.ForegroundColor = ConsoleColor.White;
-                            Console.WriteLine(textoOpcao);
-                            Console.ResetColor();
                         }
-                        else
-                        {
-                            Console.WriteLine(textoOpcao);
-                        }
+
+                        Console.WriteLine(textoOpcao);
+                        Console.ResetColor();
                     }
 
                     tecla = Console.ReadKey(true).Key;
 
                     if (tecla == ConsoleKey.UpArrow)
                     {
-                        indiceSelecionado = (indiceSelecionado - 1 + opcoes.Count()) % opcoes.Count();
+                        do
+                        {
+                            indiceSelecionado = (indiceSelecionado - 1 + opcoes.Count()) % opcoes.Count();
+                        } while (indicesEmUso.Contains(indiceSelecionado));
                     }
                     else if (tecla == ConsoleKey.DownArrow)
                     {
-                        indiceSelecionado = (indiceSelecionado + 1) % opcoes.Count();
+                        do
+                        {
+                            indiceSelecionado = (indiceSelecionado + 1) % opcoes.Count();
+                        } while (indicesEmUso.Contains(indiceSelecionado));
+                    }
+                    else if (tecla == ConsoleKey.Enter)
+                    {
+                        if (!indicesEmUso.Contains(indiceSelecionado))
+                        {
+                            string nomePersonagemSelecionado = opcoes[indiceSelecionado].Split('-')[1].Trim();
+                            Personagem personagemEscolhido = Listas.Instancia.Personagens.Find(p => p.Nome == nomePersonagemSelecionado);
+
+                            Listas.Instancia.Equipes[1].Jogadores[j].Personagem = personagemEscolhido;
+                            indicesEmUso.Add(indiceSelecionado);
+
+                            loop = false;
+                        }
                     }
 
-                } while (tecla != ConsoleKey.Enter);
+                } while (loop);
 
-                string nomePersonagemSelecionado = opcoes[indiceSelecionado].Split('-')[1].Trim();
-                Personagem personagemEscolhido = Listas.Instancia.Personagens.Find(p => p.Nome == nomePersonagemSelecionado);
-
-                Listas.Instancia.Equipes[1].Jogadores[j].Personagem = personagemEscolhido;
             }
         }
 
@@ -173,8 +215,6 @@ namespace JogoRPG
                 string descricao = $"Descrição: {Listas.Instancia.Personagens[index].Descricao}";
 
                 string pontosVid = $"Pontos de Vida: {Listas.Instancia.Personagens[index].VidaMaxima}";
-                string pontosInt = $"Pontos de Inteligência: {Listas.Instancia.Personagens[index].Inteligencia}";
-                string pontosVel = $"Pontos de Velocidade: {Listas.Instancia.Personagens[index].Velocidade}";
                 string pontosFor = $"Pontos de Força: {Listas.Instancia.Personagens[index].Forca}";
                 string pontosDef = $"Pontos de Defesa: {Listas.Instancia.Personagens[index].Defesa}";
 
@@ -195,8 +235,6 @@ namespace JogoRPG
                     "",
                     "------ Atributos ------",
                     pontosVid,
-                    pontosInt,
-                    pontosVel,
                     pontosFor,
                     pontosDef,
                     "",

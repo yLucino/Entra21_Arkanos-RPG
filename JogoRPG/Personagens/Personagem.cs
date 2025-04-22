@@ -17,8 +17,6 @@ namespace JogoRPG
         public string FotoComplexa { get; set; }
 
 
-        public int Inteligencia { get; set; }
-        public int Velocidade { get; set; }
         public int Forca { get; set; }
         public int Defesa { get; set; }
 
@@ -32,7 +30,7 @@ namespace JogoRPG
         public string Status {  get; set; } // Acordado, Desmaiado, Paralizado, Queimando, Dormindo
 
 
-        public Personagem(string nome, string descricao, int vidaMax, int vidaAtual, string classe, string fotoSimples, string fotoComplexa, int inteligencia, int velocidade, int forca, int defesa, string nomeSkill, string descSkill, int danoBaseSkill, int maxPPSkill, int atualPPSkill, string status)
+        public Personagem(string nome, string descricao, int vidaMax, int vidaAtual, string classe, string fotoSimples, string fotoComplexa, int forca, int defesa, string nomeSkill, string descSkill, int danoBaseSkill, int maxPPSkill, int atualPPSkill, string status)
         {
             this.Nome = nome;
             this.Descricao = descricao;
@@ -41,8 +39,6 @@ namespace JogoRPG
             this.Classe = classe;
             this.FotoSimples = fotoSimples;
             this.FotoComplexa = fotoComplexa;
-            this.Inteligencia = inteligencia;
-            this.Velocidade = velocidade;
             this.Forca = forca;
             this.Defesa = defesa;
             this.NomeSkill = nomeSkill;

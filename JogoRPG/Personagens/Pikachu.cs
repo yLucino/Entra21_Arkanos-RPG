@@ -19,9 +19,7 @@ namespace JogoRPG
             (•ㅅ•) 
             /つ つ",
             fotoComplexa: "\\:.             .:/\r\n        \\``._________.''/ \r\n         \\             / \r\n .--.--, / .':.   .':. \\\r\n/__:  /  | '::' . '::' |\r\n   / /   |`.   ._.   .'|\r\n  / /    |.'         '.|\r\n /___-_-,|.\\  \\   /  /.|\r\n      // |''\\.;   ;,/ '|\r\n      `==|:=         =:|\r\n         `.          .'\r\n           :-._____.-:\r\n          `''       `''",
-            inteligencia: 50,
-            velocidade: 80,
-            forca: 55,
+            forca: 35,
             defesa: 40,
             nomeSkill: "Choque do Trovão",
             descSkill: "Dano elétrico com chance de paralisar o inimigo.",

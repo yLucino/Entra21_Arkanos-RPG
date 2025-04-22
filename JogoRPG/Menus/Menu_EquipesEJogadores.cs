@@ -28,7 +28,7 @@ namespace JogoRPG.Menus
             selecaoPersonage.Menu(qtdPlayers);
 
             preview.Menu();
-            // começar batalha
+            
             batalha.Start(qtdPlayers);
         }
 

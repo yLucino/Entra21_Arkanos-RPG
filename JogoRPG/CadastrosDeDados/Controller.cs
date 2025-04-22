@@ -28,10 +28,10 @@ namespace JogoRPG
 
         public void CadastrarItens()
         {
-            Item potion = new Item("Poção", "Recupera uma pequena quantidade de HP.", 2000);
+            Item potion = new Item("Poção", "Recupera 40 de HP de um pokémon acordado.", 2000);
             Item ether = new Item("Éter", "Restaura o PP de uma habilidade.", 3000);
-            Item revive = new Item("Reviver", "Revive um aliado com metade do HP.", 5000);
-            Item paralyzeHeal = new Item("Status Total", "Remove paralisia, queimaduras ou qualquer status negativo.", 1000);
+            Item revive = new Item("Reviver", "Reanima um pokémon desmaiado e cura 50% do HP.", 5000);
+            Item paralyzeHeal = new Item("HealStatus", "Remove (PAR) Paralisia, (BURN) queimaduras e (FEAR) medo.", 1000);
 
             Listas.Instancia.Itens.Add(potion);
             Listas.Instancia.Itens.Add(ether);
