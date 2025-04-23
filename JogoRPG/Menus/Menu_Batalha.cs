@@ -389,6 +389,8 @@ namespace JogoRPG
                 Console.WriteLine(titulo);
                 Console.SetCursorPosition((larguraConsole - background.Length) / 2, posYInicio + 3);
                 Console.WriteLine(background);
+                Console.SetCursorPosition((larguraConsole - background.Length) / 2, posYInicio + 2);
+                Console.WriteLine(background);
 
                 if (opcoes.Count() == 0)
                 {

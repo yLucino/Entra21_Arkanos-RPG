@@ -195,6 +195,8 @@ namespace JogoRPG
 
                 } while (loop);
 
+
+                indicesEmUso.Clear();
             }
         }
 

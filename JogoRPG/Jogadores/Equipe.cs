@@ -14,6 +14,8 @@ namespace JogoRPG.Jogadores
         public List<Jogador> Jogadores { get; set; }
         public List<Item> Itens { get; set; }
 
+        public Equipe() { }
+
         public Equipe(string nome, string id)
         {
             this.Nome = nome;

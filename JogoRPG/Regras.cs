@@ -108,13 +108,30 @@ namespace JogoRPG
                     if (Listas.Instancia.Equipes[currentEquip].Jogadores[currentPlayer].Personagem.Nome == "Bulbasaur")
                     {
                         Listas.Instancia.Equipes[enemyEquip].Jogadores[enemyPlayer].Personagem.Status = "Envenenado";
+                        feedback.ResumoDeAcaoBatalha($"{Listas.Instancia.Equipes[enemyEquip].Jogadores[enemyPlayer].Personagem.Nome} está Envenenado com o ataque do inimigo.");
+                        Console.ReadKey();
                     }
 
                     if (GenerateRandomNumber() == 1)
                     {
-                        if (classeCurrentPlayer == "Fogo 🔥") Listas.Instancia.Equipes[enemyEquip].Jogadores[enemyPlayer].Personagem.Status = "Queimando";
-                        else if (classeCurrentPlayer == "Elétrico ⚡") Listas.Instancia.Equipes[enemyEquip].Jogadores[enemyPlayer].Personagem.Status = "Paralisado";
-                        else if (classeCurrentPlayer == "Fantasma \U0001f7e3") Listas.Instancia.Equipes[enemyEquip].Jogadores[enemyPlayer].Personagem.Status = "Aterrorizado";
+                        if (classeCurrentPlayer == "Fogo 🔥") 
+                        {
+                            Listas.Instancia.Equipes[enemyEquip].Jogadores[enemyPlayer].Personagem.Status = "Queimando";
+                            feedback.ResumoDeAcaoBatalha($"{Listas.Instancia.Equipes[enemyEquip].Jogadores[enemyPlayer].Personagem.Nome} está Queimando com o ataque do inimigo.");
+                            Console.ReadKey();
+                        }
+                        else if (classeCurrentPlayer == "Elétrico ⚡") 
+                        {
+                            Listas.Instancia.Equipes[enemyEquip].Jogadores[enemyPlayer].Personagem.Status = "Paralisado";
+                            feedback.ResumoDeAcaoBatalha($"{Listas.Instancia.Equipes[enemyEquip].Jogadores[enemyPlayer].Personagem.Nome} ficou Paralisado com o ataque do inimigo.");
+                            Console.ReadKey();
+                        }
+                        else if (classeCurrentPlayer == "Fantasma \U0001f7e3")
+                        {
+                            Listas.Instancia.Equipes[enemyEquip].Jogadores[enemyPlayer].Personagem.Status = "Aterrorizado";
+                            feedback.ResumoDeAcaoBatalha($"{Listas.Instancia.Equipes[enemyEquip].Jogadores[enemyPlayer].Personagem.Nome} ficou Aterrorizado com o ataque do inimigo.");
+                            Console.ReadKey();
+                        }
                     }
                 }
             }
@@ -202,7 +219,7 @@ namespace JogoRPG
         public int GenerateRandomNumber()
         {
             Random random = new Random();
-            int randomNumber = random.Next(1, 9);
+            int randomNumber = random.Next(1, 2);
             return randomNumber;
         }
 

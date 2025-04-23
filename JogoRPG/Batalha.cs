@@ -12,6 +12,7 @@ namespace JogoRPG
     {
         static Animacoes animacoes = new Animacoes();
         static Menu_Batalha batalha = new Menu_Batalha();
+        static Controller controller = new Controller();
 
         public void Start(int qtdPlayers)
         {
@@ -25,6 +26,8 @@ namespace JogoRPG
 
         static void Partida(bool statusPlayersLife, int turno, int qtdPlayers)
         {
+            Equipe equipeVencedora = new Equipe();
+
             while (statusPlayersLife)
             {
                 animacoes.CutsceneComecoTurno(turno);
@@ -38,10 +41,12 @@ namespace JogoRPG
                 animacoes.CutsceneFimTurno(turno);
                 turno++;
 
-                statusPlayersLife = VerificadorVidaEquipe(qtdPlayers);
+                (bool status, Equipe equipe) = VerificadorVidaEquipe(qtdPlayers);
+                statusPlayersLife = status;
+                equipeVencedora = equipe;
             }
 
-            FimPartida();
+            FimPartida(equipeVencedora);
         }
 
         static void TurnoCompra()
@@ -147,39 +152,105 @@ namespace JogoRPG
             } while (currentEquip < Listas.Instancia.Equipes.Count);
         }
 
-        static void FimPartida()
-        {
-            Console.WriteLine("FIM DA PARTIDA");
-            Console.ReadKey();
-        }
-    
-        static void ResumoTurno()
-        {
-
-        }
-
-        static bool VerificadorVidaEquipe(int qtdPlayers)
+        static (bool, Equipe) VerificadorVidaEquipe(int qtdPlayers)
         {
             bool statusPlayersLife;
+            Equipe equipeVencedora = new Equipe();
+
+            int vidaTotalEquipeRED;
+            int vidaTotalEquipeGREEN;
 
             if (qtdPlayers == 4)
             {
-                int vidaTotalEquipeRED = Listas.Instancia.Equipes[0].Jogadores[0].Personagem.VidaAtual + Listas.Instancia.Equipes[0].Jogadores[1].Personagem.VidaAtual;
-                int vidaTotalEquipeGREEN = Listas.Instancia.Equipes[1].Jogadores[0].Personagem.VidaAtual + Listas.Instancia.Equipes[1].Jogadores[1].Personagem.VidaAtual;
+                vidaTotalEquipeRED = Listas.Instancia.Equipes[0].Jogadores[0].Personagem.VidaAtual + Listas.Instancia.Equipes[0].Jogadores[1].Personagem.VidaAtual;
+                vidaTotalEquipeGREEN = Listas.Instancia.Equipes[1].Jogadores[0].Personagem.VidaAtual + Listas.Instancia.Equipes[1].Jogadores[1].Personagem.VidaAtual;
 
                 if (vidaTotalEquipeRED <= 0 || vidaTotalEquipeGREEN <= 0) statusPlayersLife = false;
                 else statusPlayersLife = true;
             }
             else
             {
-                int vidaTotalEquipeRED = Listas.Instancia.Equipes[0].Jogadores[0].Personagem.VidaAtual;
-                int vidaTotalEquipeGREEN = Listas.Instancia.Equipes[1].Jogadores[0].Personagem.VidaAtual;
+                vidaTotalEquipeRED = Listas.Instancia.Equipes[0].Jogadores[0].Personagem.VidaAtual;
+                vidaTotalEquipeGREEN = Listas.Instancia.Equipes[1].Jogadores[0].Personagem.VidaAtual;
 
                 if (vidaTotalEquipeRED <= 0 || vidaTotalEquipeGREEN <= 0) statusPlayersLife = false;
                 else statusPlayersLife = true;
             }
 
-            return statusPlayersLife;
+            if (vidaTotalEquipeRED <= 0 && vidaTotalEquipeGREEN >= 1) equipeVencedora = Listas.Instancia.Equipes[1];
+            else if (vidaTotalEquipeGREEN <= 0 && vidaTotalEquipeRED >= 1) equipeVencedora = Listas.Instancia.Equipes[0];
+
+            return (statusPlayersLife, equipeVencedora);
+        }
+
+        static void FimPartida(Equipe equipeVencedora)
+        {
+            Console.Clear();
+
+            string titulo = "========== FIM DA PARTIDA ==========";
+            string equipeVencedoraLabel = "🏆 Equipe Vencedora: ";
+            string jogadorLabel = "👤 Jogador {0}: ";
+            string pokemonsUsados = "   🔹 Pokémons usados:";
+            string pokemonInfo = "     - {0,-15} (Classe: {1})";
+            string divisor = "====================================";
+            string continuar = "Pressione qualquer tecla para continuar...";
+
+            int larguraConsole = Console.WindowWidth;
+            int alturaConsole = Console.WindowHeight;
+
+            int totalLinhas = 5 + (equipeVencedora.Jogadores.Count * 4);
+            int posYInicio = (alturaConsole / 2) - (totalLinhas / 2);
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.SetCursorPosition((larguraConsole - titulo.Length) / 2, posYInicio);
+            Console.WriteLine(titulo);
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.SetCursorPosition((larguraConsole - (equipeVencedoraLabel.Length + equipeVencedora.Nome.Length)) / 2, posYInicio + 2);
+            Console.Write(equipeVencedoraLabel);
+
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine(equipeVencedora.Nome);
+
+            for (int i = 0; i < equipeVencedora.Jogadores.Count; i++)
+            {
+                var jogador = equipeVencedora.Jogadores[i];
+                int currentY = posYInicio + 4 + (i * 4);
+
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                string jogadorText = string.Format(jogadorLabel, i + 1);
+                Console.SetCursorPosition((larguraConsole - (jogadorText.Length + jogador.Nome.Length)) / 2, currentY);
+                Console.Write(jogadorText);
+
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine(jogador.Nome);
+
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.SetCursorPosition((larguraConsole - pokemonsUsados.Length) / 2, currentY + 1);
+                Console.WriteLine(pokemonsUsados);
+
+                Console.ForegroundColor = ConsoleColor.White;
+                string pokemonText = string.Format(pokemonInfo, jogador.Personagem.Nome, jogador.Personagem.Classe);
+                Console.SetCursorPosition((larguraConsole - pokemonText.Length) / 2, currentY + 2);
+                Console.WriteLine(pokemonText);
+            }
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.SetCursorPosition((larguraConsole - divisor.Length) / 2, posYInicio + 5 + (equipeVencedora.Jogadores.Count * 4));
+            Console.WriteLine(divisor);
+
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.SetCursorPosition((larguraConsole - continuar.Length) / 2, posYInicio + 7 + (equipeVencedora.Jogadores.Count * 4));
+            Console.WriteLine(continuar);
+
+            Console.ResetColor();
+            Console.ReadKey();
+
+            // Reset de Listas e Registros
+            Listas.Instancia.Equipes.Clear();
+            Listas.Instancia.Personagens.Clear();
+
+            controller.CadastrarPersonagens();
         }
     }
 }
