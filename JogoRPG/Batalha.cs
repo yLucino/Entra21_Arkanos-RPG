@@ -30,7 +30,7 @@ namespace JogoRPG
                 animacoes.CutsceneComecoTurno(turno);
 
                 if (turno == 1 || turno == 5) TurnoCompra();
-                else TurnoCombate(qtdPlayers);
+                else batalha.Menu(qtdPlayers);
 
                 Listas.Instancia.Equipes[0].Coins += 750;
                 Listas.Instancia.Equipes[1].Coins += 750;
@@ -38,7 +38,7 @@ namespace JogoRPG
                 animacoes.CutsceneFimTurno(turno);
                 turno++;
 
-                statusPlayersLife = VerificadorDeVidaEquipe(qtdPlayers);
+                statusPlayersLife = VerificadorVidaEquipe(qtdPlayers);
             }
 
             FimPartida();
@@ -147,11 +147,6 @@ namespace JogoRPG
             } while (currentEquip < Listas.Instancia.Equipes.Count);
         }
 
-        static void TurnoCombate(int qtdPlayers)
-        {
-            batalha.Menu(qtdPlayers);
-        }
-
         static void FimPartida()
         {
             Console.WriteLine("FIM DA PARTIDA");
@@ -163,7 +158,7 @@ namespace JogoRPG
 
         }
 
-        static bool VerificadorDeVidaEquipe(int qtdPlayers)
+        static bool VerificadorVidaEquipe(int qtdPlayers)
         {
             bool statusPlayersLife;
 

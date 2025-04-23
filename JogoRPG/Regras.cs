@@ -8,12 +8,18 @@ namespace JogoRPG
 {
     public class Regras
     {
-       public (int, string) Ataque(int currentEquip, int currentPlayer, int enemyEquip, int enemyPlayer, string tipoAtaque)
-       {
+        static Feedback feedback = new Feedback();
+        static Chikorita chikorita;
+
+        public (int, string) Ataque(int currentEquip, int currentPlayer, int enemyEquip, int enemyPlayer, string tipoAtaque)
+        {
             string classeCurrentPlayer = Listas.Instancia.Equipes[currentEquip].Jogadores[currentPlayer].Personagem.Classe;
+            string statusCurrentPlayer = Listas.Instancia.Equipes[currentEquip].Jogadores[currentPlayer].Personagem.Status;
             string classeEnemyPlayer = Listas.Instancia.Equipes[enemyEquip].Jogadores[enemyPlayer].Personagem.Classe;
+            int defesaEnemyPlayer = Listas.Instancia.Equipes[enemyEquip].Jogadores[enemyPlayer].Personagem.Defesa;
 
             double modificador = 1;
+            int totalDanoAtaque = 0;
             string status = "Ataque Neutro";
 
             if (tipoAtaque == "Skill")
@@ -69,25 +75,55 @@ namespace JogoRPG
                 dano = Listas.Instancia.Equipes[currentEquip].Jogadores[currentPlayer].Personagem.DanoDaseSkill;
             }
 
-            int defesa = Listas.Instancia.Equipes[enemyEquip].Jogadores[enemyPlayer].Personagem.Defesa;
-
-            int totalDanoAtaque = (int)(dano * ((defesa / 100f)) * modificador);
-
-            if ((Listas.Instancia.Equipes[enemyEquip].Jogadores[enemyPlayer].Personagem.VidaAtual - totalDanoAtaque) <= 0)
+            if (statusCurrentPlayer == "Paralisado" || statusCurrentPlayer == "Aterrorizado")
             {
-                Listas.Instancia.Equipes[enemyEquip].Jogadores[enemyPlayer].Personagem.VidaAtual = 0;
-                Listas.Instancia.Equipes[enemyEquip].Jogadores[enemyPlayer].Personagem.Status = "Desmaiado";
+                status = "Ataque falhou";
             }
-            else 
+            else
             {
-                Listas.Instancia.Equipes[enemyEquip].Jogadores[enemyPlayer].Personagem.VidaAtual -= totalDanoAtaque;
+                totalDanoAtaque = (int)(dano * ((defesaEnemyPlayer / 100f)) * modificador);
+
+                if ((Listas.Instancia.Equipes[enemyEquip].Jogadores[enemyPlayer].Personagem.VidaAtual - totalDanoAtaque) <= 0)
+                {
+                    Listas.Instancia.Equipes[enemyEquip].Jogadores[enemyPlayer].Personagem.VidaAtual = 0;
+                    Listas.Instancia.Equipes[enemyEquip].Jogadores[enemyPlayer].Personagem.Status = "Desmaiado";
+
+
+                    if (Listas.Instancia.Equipes[currentEquip].Jogadores[currentPlayer].Personagem.Nome == "Chikorita")
+                    {
+                        feedback.ResumoDeAcaoBatalha(SkillChikorita(currentEquip, currentPlayer));
+                        Console.ReadKey();
+                    }
+                }
+                else
+                {
+                    Listas.Instancia.Equipes[enemyEquip].Jogadores[enemyPlayer].Personagem.VidaAtual -= totalDanoAtaque;
+                 
+                    if (Listas.Instancia.Equipes[currentEquip].Jogadores[currentPlayer].Personagem.Nome == "Chikorita")
+                    {
+                        feedback.ResumoDeAcaoBatalha(SkillChikorita(currentEquip, currentPlayer));
+                        Console.ReadKey();
+                    }
+
+                    if (Listas.Instancia.Equipes[currentEquip].Jogadores[currentPlayer].Personagem.Nome == "Bulbasaur")
+                    {
+                        Listas.Instancia.Equipes[enemyEquip].Jogadores[enemyPlayer].Personagem.Status = "Envenenado";
+                    }
+
+                    if (GenerateRandomNumber() == 1)
+                    {
+                        if (classeCurrentPlayer == "Fogo 🔥") Listas.Instancia.Equipes[enemyEquip].Jogadores[enemyPlayer].Personagem.Status = "Queimando";
+                        else if (classeCurrentPlayer == "Elétrico ⚡") Listas.Instancia.Equipes[enemyEquip].Jogadores[enemyPlayer].Personagem.Status = "Paralisado";
+                        else if (classeCurrentPlayer == "Fantasma \U0001f7e3") Listas.Instancia.Equipes[enemyEquip].Jogadores[enemyPlayer].Personagem.Status = "Aterrorizado";
+                    }
+                }
             }
 
             return (totalDanoAtaque, status);
-       }
+        }
 
-       public (string, bool) UsarItem(int indexEquip, int indexPlayer, Item item)
-       {
+        public (string, bool) UsarItem(int indexEquip, int indexPlayer, Item item)
+        {
             string efeitoDoItem = "";
             bool itemUsado = false;
 
@@ -161,6 +197,105 @@ namespace JogoRPG
             if (itemUsado) Listas.Instancia.Equipes[indexEquip].Itens.Remove(item);
 
             return (efeitoDoItem, itemUsado);
-       }
+        }
+
+        public int GenerateRandomNumber()
+        {
+            Random random = new Random();
+            int randomNumber = random.Next(1, 9);
+            return randomNumber;
+        }
+
+        public void GerenciadorStatusPokemon()
+        {
+            int indexEquipEnemy = 0;
+
+            for (int indexEquip = 0; indexEquip < 2; indexEquip++)
+            {
+                if (indexEquip == 0) indexEquipEnemy = 1;
+                else if (indexEquip == 1) indexEquipEnemy = 0;
+
+                for (int i = 0; i < Listas.Instancia.Equipes[indexEquip].Jogadores.Count(); i++)
+                {
+                    if (Listas.Instancia.Equipes[indexEquip].Jogadores[i].Personagem.Status == "Queimando")
+                    {
+                        feedback.ResumoDeAcaoBatalha(AplicadorDeEfeito(indexEquip, i, "Dano", 10, "Queimando"));
+                        
+                        Console.ReadKey();
+                    }
+                    else if (Listas.Instancia.Equipes[indexEquip].Jogadores[i].Personagem.Status == "Envenenado")
+                    {
+                        feedback.ResumoDeAcaoBatalha(AplicadorDeEfeito(indexEquip, i, "Dano", 15, "Envenenado"));
+                        
+                        Console.ReadKey();
+
+                        for (int j = 0; j < Listas.Instancia.Equipes[indexEquip].Jogadores.Count(); j++)
+                        {
+                            if (Listas.Instancia.Equipes[indexEquipEnemy].Jogadores[j].Personagem.Nome == "Bulbasaur")
+                            {
+                                feedback.ResumoDeAcaoBatalha(AplicadorDeEfeito(indexEquipEnemy, j, "Cura", 10, $"Drenando a vida do(a) {Listas.Instancia.Equipes[indexEquip].Jogadores[i].Personagem.Nome}")); // Cura o inimigo que tiver um Bulbasaur
+                                
+                                Console.ReadKey();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        static string AplicadorDeEfeito(int indexEquip, int indexPlayer, string tipoAcao, int pontos, string causa)
+        {
+            var personagem = Listas.Instancia.Equipes[indexEquip].Jogadores[indexPlayer].Personagem;
+            string mensagem = "";
+
+            if (tipoAcao == "Cura")
+            {
+                personagem.VidaAtual = Math.Min(personagem.VidaAtual + pontos, personagem.VidaMaxima);
+                mensagem = $"{personagem.Nome} está {causa} e curou {pontos}HP.";
+            }
+            else if (tipoAcao == "Dano")
+            {
+                personagem.VidaAtual = Math.Max(personagem.VidaAtual - pontos, 0);
+                mensagem = $"{personagem.Nome} está {causa} e tomou {pontos} de dano.";
+            }
+
+            return mensagem;
+        }
+
+        static string SkillChikorita(int currentEquip, int currentPlayer)
+        {
+            string mensagem = "";
+
+            if (Listas.Instancia.Equipes[currentEquip].Jogadores.Count() == 2)
+            {
+                int indexDupla = 0;
+
+                if (currentPlayer == 0) indexDupla = 1;
+                else if (currentPlayer == 1) indexDupla = 0;
+
+                var dupla = Listas.Instancia.Equipes[currentEquip].Jogadores[indexDupla];
+
+                if (dupla.Personagem.VidaAtual + 10 >= dupla.Personagem.VidaMaxima && dupla.Personagem.Status != "Desmaiado")
+                {
+                    dupla.Personagem.VidaAtual = dupla.Personagem.VidaMaxima;
+                    mensagem = $"{dupla.Personagem.Nome} curou 10HP com a Skill de sua dupla: {Listas.Instancia.Equipes[currentEquip].Jogadores[currentPlayer].Personagem.NomeSkill}";
+                }
+                else if (dupla.Personagem.Status != "Desmaiado")
+                {
+                    dupla.Personagem.VidaAtual += 10;
+                    mensagem = $"{dupla.Personagem.Nome} curou 10HP com a Skill de sua dupla: {Listas.Instancia.Equipes[currentEquip].Jogadores[currentPlayer].Personagem.NomeSkill}";
+                }
+
+            }
+            else
+            {
+                if (Listas.Instancia.Equipes[currentEquip].Jogadores[currentPlayer].Personagem.VidaAtual + 10 >= Listas.Instancia.Equipes[currentEquip].Jogadores[currentPlayer].Personagem.VidaMaxima) Listas.Instancia.Equipes[currentEquip].Jogadores[currentPlayer].Personagem.VidaAtual = Listas.Instancia.Equipes[currentEquip].Jogadores[currentPlayer].Personagem.VidaMaxima;
+                else Listas.Instancia.Equipes[currentEquip].Jogadores[currentPlayer].Personagem.VidaAtual += 10;
+
+                mensagem = $"{Listas.Instancia.Equipes[currentEquip].Jogadores[currentPlayer].Personagem.Nome} curou 10HP com a Skill: {Listas.Instancia.Equipes[currentEquip].Jogadores[currentPlayer].Personagem.NomeSkill}";
+            }
+
+            return mensagem;
+        }
     }
 }

@@ -27,6 +27,8 @@ namespace JogoRPG
 
             int turnoAtual = 0;
 
+            regras.GerenciadorStatusPokemon();
+
             do
             {
                 Console.Clear();
@@ -115,7 +117,7 @@ namespace JogoRPG
                         if (Listas.Instancia.Equipes[currentEquip].Jogadores[currentPlayer].Personagem.VidaAtual >= 1)
                         {
                             RetornoAtaque retorno = MenuAtaque(currentEquip, currentPlayer);
-                            feedback.ResumoDeAcaoBatalha($"{retorno.CurrentPokemon.Nome} atacou o(a) {retorno.PokemonInimigo.Nome} com {retorno.NomeAtaque}. {retorno.Status} e causou {retorno.Dano} de dano a(o) {retorno.PokemonInimigo.Nome}.");
+                            feedback.ResumoDeAcaoBatalha($"{retorno.CurrentPokemon.Nome} atacou o(a) {retorno.PokemonInimigo.Nome} com {retorno.NomeAtaque}. {retorno.Status} e causou {retorno.Dano} de dano a(o) {retorno.PokemonInimigo.Nome}{(retorno.Status == "Ataque falhou" ? $", por que está {retorno.CurrentPokemon.Status}." : ".")}");
                         }
 
                         turnoAtual++;
@@ -379,14 +381,21 @@ namespace JogoRPG
                 int removeRow = 4;
 
                 if (opcoes.Count() == 2) removeRow = 3;
+                if (opcoes.Count() == 0) removeRow = 4;
 
                 int posYInicio = alturaConsole - opcoes.Count() - removeRow;
 
                 Console.SetCursorPosition((larguraConsole - titulo.Length) / 2, posYInicio + 1);
                 Console.WriteLine(titulo);
                 Console.SetCursorPosition((larguraConsole - background.Length) / 2, posYInicio + 3);
-                Console.BackgroundColor = ConsoleColor.Black;
                 Console.WriteLine(background);
+
+                if (opcoes.Count() == 0)
+                {
+                    Console.SetCursorPosition((larguraConsole - background.Length) / 2, posYInicio + 4);
+                    Console.WriteLine(background);
+                }
+                
                 Console.ResetColor();
 
                 for (int i = 0; i < opcoes.Count(); i++)

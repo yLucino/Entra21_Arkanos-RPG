@@ -28,6 +28,8 @@ namespace JogoRPG
             atualPPSkill: 3,
             status: "Acordado")
         { }
+
+
     }
 }
 
